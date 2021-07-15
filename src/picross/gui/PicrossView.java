@@ -3,6 +3,7 @@ package picross.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -29,11 +30,11 @@ public class PicrossView extends Application {
 
         for (int row = 0; row < board.getNumRows(); row++) {
             for (int col = 0; col < board.getNumCols(); col++) {
-                Button b = new Button();
+                ToggleButton b = new ToggleButton();
                 b.setPrefHeight(50);
                 b.setPrefWidth(50);
                 b.setOnAction(e -> {
-                    System.out.println(picrossGrid.getChildren().indexOf(b));
+                    board.flipTile(picrossGrid.getChildren().indexOf(b));
                 });
                 picrossGrid.getChildren().add(b);
             }
