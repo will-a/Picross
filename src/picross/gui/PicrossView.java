@@ -2,10 +2,7 @@ package picross.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import picross.model.PicrossBoard;
 
@@ -18,28 +15,22 @@ public class PicrossView extends Application {
     public void init() throws Exception {
         List<String> args = getParameters().getRaw();
         board = new PicrossBoard(Integer.parseInt(args.get(0)), Integer.parseInt(args.get(1)));
+        board.newGame();
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         BorderPane scenePane = new BorderPane();
+        // picrossGrid.setPrefRows(board.getNumRows());
+        // picrossGrid.setPrefColumns(board.getNumCols());
+        /*for (int i = 1; i <= board.getNumRows(); i++) {
+            HBox rowNums = new HBox(5);
 
-        TilePane picrossGrid = new TilePane();
-        picrossGrid.setPrefRows(board.getNumRows());
-        picrossGrid.setPrefColumns(board.getNumCols());
 
-        for (int row = 0; row < board.getNumRows(); row++) {
-            for (int col = 0; col < board.getNumCols(); col++) {
-                ToggleButton b = new ToggleButton();
-                b.setPrefHeight(50);
-                b.setPrefWidth(50);
-                b.setOnAction(e -> {
-                    board.flipTile(picrossGrid.getChildren().indexOf(b));
-                });
-                picrossGrid.getChildren().add(b);
-            }
-        }
-        scenePane.setCenter(picrossGrid);
+            picrossGrid.add();
+        }*/
+
+        scenePane.setCenter(board);
 
         Scene scene = new Scene(scenePane);
         stage.setScene(scene);
