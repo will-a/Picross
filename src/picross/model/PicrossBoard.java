@@ -1,5 +1,7 @@
 package picross.model;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,15 +29,19 @@ public class PicrossBoard extends GridPane {
         colHints = new HBox[numRows];
         solution = new boolean[numRows][numCols];
 
-        add(new HBox(), 0, 0);
-
+        // top hint row
         for (int i = 0; i < numCols; i++) {
             VBox v = new VBox();
+            v.setAlignment(Pos.BOTTOM_CENTER);
+            v.setPadding(new Insets(0, 0, 3, 0));
             add(v, i + 1, 0);
             rowHints[i] = v;
         }
+        // left hint row
         for (int i = 0; i < numRows; i++) {
-            HBox h = new HBox();
+            HBox h = new HBox(2);
+            h.setAlignment(Pos.CENTER_RIGHT);
+            h.setPadding(new Insets(0, 5, 0, 0));
             add(h, 0, i + 1);
             colHints[i] = h;
         }
