@@ -1,8 +1,13 @@
 package picross.gui;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import picross.model.PicrossBoard;
 
@@ -21,16 +26,27 @@ public class PicrossView extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         BorderPane scenePane = new BorderPane();
-        // picrossGrid.setPrefRows(board.getNumRows());
-        // picrossGrid.setPrefColumns(board.getNumCols());
-        /*for (int i = 1; i <= board.getNumRows(); i++) {
-            HBox rowNums = new HBox(5);
 
+        Text picrossText = new Text("Picross");
+        picrossText.setFont(new Font("Calibri", 40));
 
-            picrossGrid.add();
-        }*/
+        Button solveButton = new Button("Solve");
+        solveButton.setFont(new Font("Calibri", 30));
+        solveButton.setOnAction(e -> {
+            System.out.println(board.checkSolution());
+        });
+
+        Button newGameButton = new Button("New Game");
+        newGameButton.setFont(new Font("Calibri", 20));
+        newGameButton.setOnAction(e -> {
+            board.newGame();
+        });
+
+        VBox sidebar = new VBox(20, picrossText, solveButton, newGameButton);
+        sidebar.setPadding(new Insets(50));
 
         scenePane.setCenter(board);
+        scenePane.setLeft(sidebar);
 
         Scene scene = new Scene(scenePane);
         stage.setScene(scene);
