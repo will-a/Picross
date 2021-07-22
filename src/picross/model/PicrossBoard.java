@@ -29,19 +29,19 @@ public class PicrossBoard extends GridPane {
 
         // left hint row
         for (int i = 0; i < numCols; i++) {
-            HBox v = new HBox(2);
-            v.setAlignment(Pos.CENTER_RIGHT);
-            v.setPadding(new Insets(0, 5, 0, 0));
-            add(v, 0, i + 1);
-            rowHints[i] = v;
+            HBox h = new HBox(2);
+            h.setAlignment(Pos.CENTER_RIGHT);
+            h.setPadding(new Insets(0, 5, 0, 0));
+            add(h, 0, i + 1);
+            rowHints[i] = h;
         }
         // top hint row
         for (int i = 0; i < numRows; i++) {
-            VBox h = new VBox();
-            h.setAlignment(Pos.BOTTOM_CENTER);
-            h.setPadding(new Insets(0, 0, 3, 0));
-            add(h, i + 1, 0);
-            colHints[i] = h;
+            VBox v = new VBox();
+            v.setAlignment(Pos.BOTTOM_CENTER);
+            v.setPadding(new Insets(0, 0, 3, 0));
+            add(v, i + 1, 0);
+            colHints[i] = v;
         }
 
         for (int row = 1; row <= numRows; row++) {
