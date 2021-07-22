@@ -1,7 +1,9 @@
 package picross.gui;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -11,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import picross.model.PicrossBoard;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class PicrossView extends Application {
@@ -54,8 +57,15 @@ public class PicrossView extends Application {
             result.setVisible(false);
         });
 
-        VBox sidebar = new VBox(20, picrossText, solveButton, newGameButton, result);
+        Text percentDone = new Text();
+        percentDone.setFont(new Font("Calibri", 20));
+        DecimalFormat df = new DecimalFormat("#.#");
+        percentDone.textProperty().bind(Bindings.createStringBinding(() ->
+                df.format(board.getPercentDone().get()) + "%", board.getPercentDone()));
+
+        VBox sidebar = new VBox(20, picrossText, solveButton, newGameButton, result, percentDone);
         sidebar.setPadding(new Insets(50));
+        sidebar.setAlignment(Pos.BASELINE_CENTER);
 
         scenePane.setCenter(board);
         scenePane.setLeft(sidebar);

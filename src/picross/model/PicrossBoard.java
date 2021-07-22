@@ -1,5 +1,6 @@
 package picross.model;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
@@ -12,6 +13,9 @@ public class PicrossBoard extends GridPane {
     private static double selectChance = 0.5;
     private int numRows;
     private int numCols;
+    private int totalSelected;
+    private int currSelected;
+    private SimpleDoubleProperty percentSelected;
 
     private PicrossTile[][] board;
     private HBox[] rowHints;
@@ -21,6 +25,9 @@ public class PicrossBoard extends GridPane {
     public PicrossBoard(int rows, int cols) {
         numRows = rows;
         numCols = cols;
+        totalSelected = 0;
+        currSelected = 0;
+        percentSelected = new SimpleDoubleProperty(0);
 
         board = new PicrossTile[numRows][numCols];
         rowHints = new HBox[numCols];
@@ -49,6 +56,14 @@ public class PicrossBoard extends GridPane {
                 PicrossTile b = new PicrossTile(row-1, col-1);
                 b.setPrefHeight(50);
                 b.setPrefWidth(50);
+                b.setOnAction(e -> {
+                    if (b.isSelected()) {
+                        currSelected++;
+                    } else {
+                        currSelected--;
+                    }
+                    percentSelected.set(((double) currSelected / (double) totalSelected) * 100);
+                });
                 add(b, row, col);
                 board[row-1][col-1] = b;
             }
@@ -56,6 +71,9 @@ public class PicrossBoard extends GridPane {
     }
 
     public void newGame() {
+        totalSelected = 0;
+        currSelected = 0;
+        percentSelected.set(0);
         ArrayList<ArrayList<PicrossHint>> rowHintVals = new ArrayList<>();
         for (int i = 0; i < numCols; i++) rowHintVals.add(new ArrayList<>());
         ArrayList<ArrayList<PicrossHint>> colHintVals = new ArrayList<>();
@@ -66,13 +84,13 @@ public class PicrossBoard extends GridPane {
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 solution[row][col] = Math.random() <= selectChance;
+                if (solution[row][col]) totalSelected++;
                 board[row][col].deselect();
 
                 if (solution[row][col]) {
                     colCounter++;
                     rowCounts[col]++;
-                }
-                else {
+                } else {
                     if (colCounter > 0) {
                         colHintVals.get(row).add(new PicrossHint(colCounter));
                         colCounter = 0;
@@ -103,6 +121,10 @@ public class PicrossBoard extends GridPane {
                 colHints[col].getChildren().add(ph);
             }
         }
+    }
+
+    public SimpleDoubleProperty getPercentDone() {
+        return percentSelected;
     }
 
     public boolean checkSolution() {
